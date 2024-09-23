@@ -1,5 +1,5 @@
 /*
-Problem : Merge Two Sorted Arrays
+Problem : Merge Two Sorted Arrays without extra space.
 You are given two sorted arrays arr1 of size m and arr2 of size n.
 Your task is to merge these two arrays into a single sorted array 
 without using any extra space (i.e., in-place merging). 
@@ -25,6 +25,7 @@ arr2 = [5, 6, 7, 8]
 
 package Problems;
 import java.util.Scanner;
+import java.util.Arrays;
 
 public class Problem_4 {
     
@@ -43,23 +44,23 @@ public class Problem_4 {
     }
 
     public static void merge(int arr1[], int arr2[], int m, int n) {
-        // Traverse the second array from last element to first
-        for (int i = n - 1; i >= 0; i--) {
-            int last = arr1[m - 1];
-            int j = m - 2;
-
-            // Find the smallest element greater than arr2[i] in arr1
-            while (j >= 0 && arr1[j] > arr2[i]) {
-                arr1[j + 1] = arr1[j];
-                j--;
-            }
-
-            // If there was an element found in arr1 greater than arr2[i]
-            if (j != m - 2 || last > arr2[i]) {
-                arr1[j + 1] = arr2[i];
-                arr2[i] = last;
-            }
-        }
+    	// provided arrays will be sorted
+	   int left=m-1;
+	   int right=0;
+	   while(left >=0 && right<n) {
+		   if(arr1[left]>arr2[right]) {
+			   // swap both
+			   int temp= arr1[left];
+			   arr1[left]= arr2[right];
+			   arr2[right]= temp;
+			   left--; right++;
+		   } else {
+			   break;
+		   }
+	   }
+	   // sort the two arrays again
+       	Arrays.sort(arr1);
+   		Arrays.sort(arr2);
     }
 
     public static void main(String[] args) {
@@ -71,9 +72,12 @@ public class Problem_4 {
         int n = sc.nextInt();
         int arr1[] = new int[m];
         int arr2[] = new int[n];
-
+    	
         fillArray(arr1, sc);
         fillArray(arr2, sc);
+        
+        Arrays.sort(arr1);
+    	Arrays.sort(arr2);
 
         merge(arr1, arr2, m, n);
 
